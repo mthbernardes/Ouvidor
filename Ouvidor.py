@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import librtmp
 import subprocess
 import os
@@ -19,7 +21,7 @@ def audio_to_text(outname):
     try:
         command = r.recognize_google(audio,language='pt_BR')
         if not command.isspace():
-            log = '%s>>>%s\n' %(now,command.encode('ascii', 'ignore'))
+            log = '%s>>>%s\n' %(now,command.encode('utf-8'))
             report(log)
     except Exception as e:
         print str(e)
