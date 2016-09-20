@@ -1,1 +1,1 @@
-librtmp
+python-librtmp
