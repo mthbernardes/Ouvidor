@@ -22,7 +22,12 @@ def audio_to_text(outname):
     try:
         command = r.recognize_google(audio,language='pt_BR')
         if not command.isspace():
+<<<<<<< HEAD
             report(now,command.encode('utf-8'))
+=======
+            log = '%s>>>%s\n' %(now,command.encode('utf-8'))
+            report(log)
+>>>>>>> 8c3405018e9f37496838439f6d50b5784880a7f8
     except Exception as e:
         print str(e)
     os.remove(outname)
