@@ -3,12 +3,18 @@ Bot que escuta a radio educadora e tenta salvar tudo que eh dito na rádio.
 
 #Instalação
 git clone https://github.com/mthbernardes/Ouvidor.git
-pip install -r dependencies.txt
-
+<pre>
 #Mac OS
 <pre>
 brew install rtmpdump
 pip install -r dependencies.txt
+</pre>
+
+#Debian/Ubuntu
+<pre>
+sudo apt-get install rtmpdump librtmp-dev
+pip install -r dependencies.txt
+</pre>
 </pre>
 
 #Exemplo resultado
