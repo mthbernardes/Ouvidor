@@ -1,8 +1,11 @@
+# -*- coding: utf-8 -*-
+
 import librtmp
 import subprocess
 import os
 from threading import Thread
 from datetime import datetime
+from lib.database import database
 
 def converter(inname,outname):
     cmd = cmd = 'ffmpeg -i %s %s' %(inname,outname)
@@ -19,16 +22,15 @@ def audio_to_text(outname):
     try:
         command = r.recognize_google(audio,language='pt_BR')
         if not command.isspace():
-            log = '%s>>>%s\n' %(now,command)
-            report(log)
+            report(now,command.encode('utf-8'))
     except Exception as e:
         print str(e)
     os.remove(outname)
 
-def report(log):
-    f = open('report.txt','a')
-    f.write(log)
-    f.close()
+def report(now,phrase):
+    db = database().create()
+    db.log.insert(date=now[0],time=now[1],phrase=phrase)
+    db.commit()
 
 def connection():
     conn = librtmp.RTMP("rtmp://evp.mm.uol.com.br/educadora_cps/_definst_/educadora_cps")
@@ -45,15 +47,15 @@ while 1:
         stream = connection()
         conn = 1
 
-    now = str(datetime.now())
-    inname = 'input/%d.flv' % idname
-    outname = 'output/%d.wav' % idname
+    now = [datetime.now().strftime('%Y/%m/%d'),datetime.now().strftime('%H:%M:%S')]
+    inname = 'data/input/%d.flv' % idname
+    outname = 'data/output/%d.wav' % idname
     f = open(inname,'ab')
     data = stream.read(1024 * 1024)
     total += len(data)
     f.write(data)
 
-    if total >= 104857:
+    if total >= 100000:
         conn = 0
         total = 0
         idname += 1
